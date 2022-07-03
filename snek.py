@@ -1,10 +1,10 @@
 from tkinter import *
 import random
 
-GAME_WIDTH = 700
-GAME_HEIGHT = 700
-SPEED = 50
-SPACE_SIZE = 50
+GAME_WIDTH = 600
+GAME_HEIGHT = 600
+SPEED = 75
+SPACE_SIZE = 30
 BODY_PARTS = 3
 SNAKE_COLOUR = "#00FF00"
 FOOD_COLOUR = "#FF0000"
@@ -117,7 +117,9 @@ def check_collisions(snake):
             return True
 
 def game_over():
-    pass
+    
+    canvas.delete(ALL)
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, font=("arial", 70), text="GAME OVER!", fill="red", tag="gameover" )
 
 window = Tk()
 window.title("Snek Game")
@@ -149,6 +151,11 @@ window.bind('<Left>', lambda event: change_direction('left'))
 window.bind('<Right>', lambda event: change_direction('right'))
 window.bind('<Up>', lambda event: change_direction('up'))
 window.bind('<Down>', lambda event: change_direction('down'))
+
+window.bind('<a>', lambda event: change_direction('left'))
+window.bind('<d>', lambda event: change_direction('right'))
+window.bind('<w>', lambda event: change_direction('up'))
+window.bind('<s>', lambda event: change_direction('down'))
 
 snake = Snake()
 food = Food()
