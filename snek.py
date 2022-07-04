@@ -1,16 +1,26 @@
+# SNEK GAME
+
 from tkinter import *
 import random
-import time
 
+# Game space parameters
 GAME_WIDTH = 600
 GAME_HEIGHT = 600
 SPACE_SIZE = 30
+
+# Starting snake size
 BODY_PARTS = 3
+
+# Snake speed parameters
+START_SPEED = 120
+MAX_SPEED = 20
+SPEED_REDUCTION = 2
+
+# Color values for background and subjects
 SNAKE_COLOUR = "#333333"
 FOOD_COLOUR = "#de0713"
 BACKGROUND_COLOR = "#8cb281"
 
-snake_speed = 100
 
 class Snake:
 
@@ -40,6 +50,7 @@ class Food:
 
 def next_turn(snake, food):
 
+    global score
     global snake_speed
     
     x, y = snake.coordinates[0]
@@ -61,11 +72,13 @@ def next_turn(snake, food):
 
     if (x == food.coordinates[0]) and (y == food.coordinates[1]):
 
-        global score
 
         score += 1
+
+        if snake_speed > MAX_SPEED:
+            snake_speed -= SPEED_REDUCTION
         
-        label.config(text="Score:{} ".format(score))
+        label.config(text="Score: {} ".format(score))
 
         canvas.delete("food")
 
@@ -156,13 +169,16 @@ def start_game():
 
     global score
     global direction
+    global snake_speed
 
     canvas.delete(ALL)
 
+    # Setting game restart values
+    snake_speed = START_SPEED
     score = 0
     direction = 'down'
 
-    label.config(text="Score:{}".format(score))
+    label.config(text="Score: {}".format(score))
 
     snake = Snake()
     food = Food()
@@ -179,11 +195,13 @@ window = Tk()
 window.title("Snek Game")
 window.resizable(False, False)
 
+# Setting game start values
+snake_speed = START_SPEED
 score = 0
 highscore = 0
 direction = 'down'
 
-label = Label(window, text="Score: {}".format(score), font=('arial', 40))
+label = Label(window, text="Score: {} ".format(score), font=('arial', 40))
 label.pack()
 
 button = Button(window, text= "Quit", font=("arial",12), command=stop_game, bg="#2d2e2e", fg="#F5F5F5")
