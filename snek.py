@@ -61,7 +61,7 @@ def next_turn(snake, food):
 
         score += 1
         
-        label.config(text="Score:{}".format(score))
+        label.config(text="Score:{} ".format(score))
 
         canvas.delete("food")
 
@@ -75,10 +75,15 @@ def next_turn(snake, food):
         del snake.squares[-1]
 
     if check_collisions(snake):
-        window.after(500)
+        global highscore
+
+        if score > highscore:
+            highscore = score
+
+        window.after(350)
         game_over()
         
-        window.after(2500, start_game)
+        window.after(2750, start_game)
     
     else:
         window.after(SPEED, next_turn, snake, food)
@@ -120,11 +125,15 @@ def check_collisions(snake):
      
 
 def game_over():
+    global score
+    global highscore
 
     canvas.delete(ALL)
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2.5, font=("arial", 60, "bold"), text="GAME OVER!", fill="red", tag="gameover" )
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.8, font=("arial", 36), text="Your Score:{}".format(score), fill="white", tag="yourscore" )
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.2, font=("arial", 14), text="Game will restart in 3 seconds...", fill="white", tag="stopplay" )
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2.5, font=("arial", 60, "bold"), text="GAME OVER!", fill="red", tag="gameover")
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.8, font=("arial", 36), text="Your Score: {}".format(score), fill="white", tag="yourscore")
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.5, font=("arial", 24), text="High Score: {}".format(highscore), fill="white", tag="highscore")
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.2, font=("arial", 14), text="Game will restart in 3 seconds...", fill="white", tag="gamestart3")
+    
 
 def start_game():
 
@@ -154,13 +163,14 @@ window.title("Snek Game")
 window.resizable(False, False)
 
 score = 0
+highscore = 0
 direction = 'down'
 
-label = Label(window, text="Score:{}".format(score), font=('arial', 40))
+label = Label(window, text="Score: {}".format(score), font=('arial', 40))
 label.pack()
 
-button = Button(window, text= "Quit", font=("arial",12), command=stop_game)
-button.place(x=520, y=20)
+button = Button(window, text= "Quit", font=("arial",12), command=stop_game, bg="#2d2e2e", fg="#F5F5F5")
+button.place(x = 520, y = 20)
 
 canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
 canvas.pack()
