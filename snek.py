@@ -1,14 +1,16 @@
 from tkinter import *
 import random
+import time
 
 GAME_WIDTH = 600
 GAME_HEIGHT = 600
-SPEED = 75
 SPACE_SIZE = 30
 BODY_PARTS = 3
 SNAKE_COLOUR = "#333333"
 FOOD_COLOUR = "#de0713"
 BACKGROUND_COLOR = "#8cb281"
+
+snake_speed = 100
 
 class Snake:
 
@@ -33,10 +35,12 @@ class Food:
 
         self.coordinates = [x, y]
 
-        canvas.create_oval(x + 5, y + 5, x + SPACE_SIZE - 5, y + SPACE_SIZE - 5, fill=FOOD_COLOUR, outline="red", dash=(1,2), tag="food")
+        canvas.create_oval(x + 5, y + 5, x + SPACE_SIZE - 5, y + SPACE_SIZE - 5, fill=FOOD_COLOUR, outline=FOOD_COLOUR, tag="food")
 
 
 def next_turn(snake, food):
+
+    global snake_speed
     
     x, y = snake.coordinates[0]
 
@@ -81,12 +85,13 @@ def next_turn(snake, food):
             highscore = score
 
         window.after(350)
+
         game_over()
         
-        window.after(2750, start_game)
+        window.after(3000, start_game)
     
     else:
-        window.after(SPEED, next_turn, snake, food)
+        window.after(snake_speed, next_turn, snake, food)
 
 
 def change_direction(new_direction):
@@ -129,11 +134,23 @@ def game_over():
     global highscore
 
     canvas.delete(ALL)
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2.5, font=("arial", 60, "bold"), text="GAME OVER!", fill="red", tag="gameover")
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.8, font=("arial", 36), text="Your Score: {}".format(score), fill="white", tag="yourscore")
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/3.5, font=("arial", 60, "bold"), text="GAME OVER!", fill="red", tag="gameover")
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, font=("arial", 36), text="Your Score: {}".format(score), fill="white", tag="yourscore")
     canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.5, font=("arial", 24), text="High Score: {}".format(highscore), fill="white", tag="highscore")
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.2, font=("arial", 14), text="Game will restart in 3 seconds...", fill="white", tag="gamestart3")
-    
+
+    gamestart_string = "Game will restart in... "
+    county = canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.2, font=("arial", 14), text=gamestart_string, fill="white", tag="gamestart")
+
+    count_string = "3 2 1"
+    #Time delay in milliseconds
+    delta = 500 
+    delay = 0
+    for i in range(len(count_string) + 1):
+        s = count_string[:i]
+        update_text = lambda s=s: canvas.itemconfigure(county, text=gamestart_string + s)
+        canvas.after(delay, update_text)
+        delay += delta
+
 
 def start_game():
 
