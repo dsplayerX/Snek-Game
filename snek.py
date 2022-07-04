@@ -1,4 +1,7 @@
-# SNEK GAME
+### SNEK GAME ###
+# just another snek game
+# -dsplayerX #
+#
 
 from tkinter import *
 import random
@@ -72,7 +75,6 @@ def next_turn(snake, food):
 
     if (x == food.coordinates[0]) and (y == food.coordinates[1]):
 
-
         score += 1
 
         if snake_speed > MAX_SPEED:
@@ -97,10 +99,8 @@ def next_turn(snake, food):
         if score > highscore:
             highscore = score
 
-        window.after(350)
-
+        window.after(350) # showing snake crash for a brief time
         game_over()
-        
         window.after(3000, start_game)
     
     else:
@@ -147,12 +147,15 @@ def game_over():
     global highscore
 
     canvas.delete(ALL)
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/3.5, font=("arial", 60, "bold"), text="GAME OVER!", fill="red", tag="gameover")
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, font=("arial", 36), text="Your Score: {}".format(score), fill="white", tag="yourscore")
-    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.5, font=("arial", 24), text="High Score: {}".format(highscore), fill="white", tag="highscore")
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/3.5, font=("arial", 60, "bold"), text="GAME OVER!", fill="#de0713", tag="gameover")
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, font=("arial", 36), text="Your Score: {}".format(score), fill="#C8FCEA", tag="yourscore")
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.5, font=("arial", 24), text="High Score: {}".format(highscore), fill="#ffe044", tag="highscore")
 
-    gamestart_string = "Game will restart in... "
-    county = canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.2, font=("arial", 14), text=gamestart_string, fill="white", tag="gamestart")
+    canvas.create_rectangle(200, 485,400,540, fill="#333333", outline="black")
+
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.2, font=("arial", 14), text="Game will restart in... ", fill="white", tag="gamestart")
+
+    gamestartcount = canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/1.15, font=("arial", 14), text="", fill="white", tag="gamestartcount")
 
     count_string = "3 2 1"
     #Time delay in milliseconds
@@ -160,7 +163,7 @@ def game_over():
     delay = 0
     for i in range(len(count_string) + 1):
         s = count_string[:i]
-        update_text = lambda s=s: canvas.itemconfigure(county, text=gamestart_string + s)
+        update_text = lambda s=s: canvas.itemconfigure(gamestartcount, text=s)
         canvas.after(delay, update_text)
         delay += delta
 
@@ -201,11 +204,13 @@ score = 0
 highscore = 0
 direction = 'down'
 
-label = Label(window, text="Score: {} ".format(score), font=('arial', 40))
+# Score Label on top
+label = Label(window, text="Score: {} ".format(score), font=('arial', 36))
 label.pack()
 
-button = Button(window, text= "Quit", font=("arial",12), command=stop_game, bg="#2d2e2e", fg="#F5F5F5")
-button.place(x = 520, y = 20)
+# Quit Button
+button = Button(window, text= "Quit", font=("arial",12), command=stop_game, bg="#333333", fg="#F5F5F5")
+button.place(x = 520, y = 15)
 
 canvas = Canvas(window, bg=BACKGROUND_COLOR, height=GAME_HEIGHT, width=GAME_WIDTH)
 canvas.pack()

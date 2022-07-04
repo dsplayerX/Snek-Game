@@ -7,7 +7,7 @@
 - Dynamic Snake Speed
 
 ## Issues
-- Sometime when pressing 2 keys at the same time game suddenly ends and goes to "Game Over" screen.
+- Sometimes when pressing 2+ keys at the same time game reverts to the "Game Over" screen.
 
 <br/>
 
@@ -19,6 +19,7 @@
 - Added replayability
 - Added dynamic snake speed
 - Added a high score system
+- Added alternate controls (wasd)
 - Added after game information (last score & high score)
 - Added a quit button to exit on command
 
