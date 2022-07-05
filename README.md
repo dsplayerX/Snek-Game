@@ -11,7 +11,7 @@
 
 <br/>
 
-- Learned from Bro Code's [Snake Game Tutorial](https://www.youtube.com/watch?v=bfRwxS5d0SI)
+> Learned from Bro Code's [Snake Game Tutorial](https://www.youtube.com/watch?v=bfRwxS5d0SI)
 
 ### My contributions
 - Tweaked game / gameplay parameters
